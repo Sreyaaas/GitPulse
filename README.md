@@ -122,13 +122,14 @@ types/
 styles/
     globals.css             # Tailwind v4 directives and custom keyframe glows
 
-🚀 Getting Started Locally
+---
 
-1.  Clone the repository:
+## 🚀 Getting Started Locally
 
-    git clone https://github.com/Sreyaaas/GitPulse.git
-    cd git-pulse
-
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/Sreyaaas/GitPulse.git](https://github.com/Sreyaaas/GitPulse.git)
+   cd git-pulse
 2.  Install dependencies:
 
     npm install
