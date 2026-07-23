@@ -122,7 +122,7 @@ types/
 styles/
     globals.css             # Tailwind v4 directives and custom keyframe glows
 
----
+```
 
 ## 🚀 Getting Started Locally
 
