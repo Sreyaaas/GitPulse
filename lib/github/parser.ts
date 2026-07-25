@@ -166,11 +166,34 @@ export function generateInsights(user: GitHubUser, repos: GitHubRepo[]) {
   if (achievements.length === 0) achievements.push("Early Adopter");
 
   // 5. Workflow Rhythm
-  const recentUpdates = repos.filter(r => {
-    const updateYear = new Date(r.updated_at).getFullYear();
-    return updateYear >= 2024;
-  }).length;
-  const rhythm = recentUpdates > 5 ? "High-Velocity Shipper" : "Steady Maintainer";
+// UPGRADED: Dynamic Workflow Rhythm Matrix (Multi-variable analysis)
+  const now = new Date().getTime();
+  const threeMonthsAgo = now - (90 * 24 * 60 * 60 * 1000);
+  const oneYearAgo = now - (365 * 24 * 60 * 60 * 1000);
+
+  const recentUpdatesCount = repos.filter(r => new Date(r.updated_at).getTime() > threeMonthsAgo).length;
+  const yearOldUpdatesCount = repos.filter(r => new Date(r.updated_at).getTime() > oneYearAgo).length;
+  const uniqueLanguages = new Set(repos.map(r => r.language).filter(Boolean)).size;
+
+  let rhythm = "Steady Maintainer";
+
+  if (recentUpdatesCount >= 5 && uniqueLanguages >= 4) {
+    rhythm = "Polyglot Experimentalist";
+  } else if (recentUpdatesCount >= 6) {
+    rhythm = "Continuous Delivery Engine";
+  } else if (recentUpdatesCount === 0 && repos.length > 5) {
+    rhythm = "Dormant Archive / Legacy";
+  } else if (yearOldUpdatesCount <= 2 && repos.length > 3) {
+    rhythm = "Episodic Sprint Hacker";
+  } else if (starCount > 200 && repos.length < 10) {
+    rhythm = "Deep Focus Architect";
+  } else if (user.public_repos > 40) {
+    rhythm = "High-Volume Factory";
+  } else if (uniqueLanguages >= 5) {
+    rhythm = "Cross-Disciplinary Tinkerer";
+  } else {
+    rhythm = "Methodical Builder";
+  }
 
   // 6. Code Quality & Maintenance Index
   const maintainedRepos = repos.filter(r => {
