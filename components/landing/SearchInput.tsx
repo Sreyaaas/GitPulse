@@ -25,7 +25,7 @@ export default function SearchInput() {
       transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
       className="relative max-w-2xl mx-auto w-full group"
     >
-      <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-fuchsia-500 rounded-4xl blur-sm opacity-40 group-hover:opacity-75 transition duration-1000 animate-pulse pointer-events-none" />
+      <div className="absolute -inset-0.5 bg-linear-to-r from-blue-500 to-fuchsia-500 rounded-4xl blur-sm opacity-40 group-hover:opacity-75 transition duration-1000 animate-pulse pointer-events-none" />
 
       <div className="relative flex items-center bg-zinc-950/90 border border-white/20 rounded-4xl p-2 pr-4 backdrop-blur-3xl shadow-2xl">
         <div className="pl-6 text-zinc-300">
