@@ -1,5 +1,5 @@
 import GlassCard from "../shared/GlassCard";
-import { ShieldCheck, AlertCircle, CheckCircle2 } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 export default function QualityAuditor({ maintenanceIndex, totalRepos }: { maintenanceIndex: number, totalRepos: number }) {
   const getGrade = (score: number) => {

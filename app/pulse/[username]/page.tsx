@@ -1,15 +1,12 @@
 import { getGitHubData } from "@/lib/github/api";
 import { calculateLanguages } from "@/lib/github/language";
-import { generateInsights, getTopRepos } from "@/lib/github/parser";
+import { generateInsights } from "@/lib/github/parser";
 import ProfileHeader from "@/components/pulse/ProfileHeader";
+import SignalsMatrix from "@/components/pulse/SignalsMatrix";
 import SkillDNA from "@/components/pulse/SkillDNA";
-import Persona from "@/components/pulse/Persona";
-import HealthScore from "@/components/pulse/HealthScore";
-import TechStack from "@/components/pulse/TechStack";
-import Achievements from "@/components/pulse/Achievements";
-import QualityAuditor from "@/components/pulse/QualityAuditor";
+import RepositorySection from "@/components/pulse/RepositorySection";
+import RecentActivity from "@/components/pulse/RecentActivity";
 import ExportCard from "@/components/pulse/ExportCard";
-import RepositoryGrid from "@/components/pulse/RepositoryGrid";
 import PulseNavbar from "@/components/pulse/PulseNavbar";
 import ErrorState from "@/components/pulse/ErrorState";
 
@@ -21,40 +18,48 @@ export default async function PulsePage({ params }: Props) {
   const resolvedParams = await Promise.resolve(params);
   const username = resolvedParams.username;
   
-  // Clean, non-throwing data fetch
+  // Production-grade data fetch with caching
   const userData = await getGitHubData(username);
 
-  // If user is not found or rate-limited, smoothly display your custom ErrorState
+  // If user is not found or rate-limited, display ErrorState
   if (!userData) {
     return <ErrorState username={username} />;
   }
 
-  const { user, repos } = userData;
+  const { user, repos, events } = userData;
   const languages = calculateLanguages(repos);
-  const { healthScore, archetype, techStack, achievements, rhythm, maintenanceIndex } = generateInsights(user, repos);
-  const topRepos = getTopRepos(repos);
+  const insights = generateInsights(user, repos, events);
 
   return (
-    <main className="min-h-screen bg-background text-white selection:bg-white/20">
+    <main className="min-h-screen bg-background text-white selection:bg-white/20 pb-20">
       <PulseNavbar githubUrl={user.html_url} username={user.login} />
       
-      <div className="max-w-7xl mx-auto px-8 pb-32 pt-28">
-        <ProfileHeader user={user} />
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24">
+        {/* 1. Executive Dossier Header */}
+        <ProfileHeader user={user} insights={insights} />
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 max-w-4xl mx-auto">
-          <Persona archetype={archetype} />
-          <HealthScore score={healthScore} />
-        </div>
+        {/* 2. Four Core Signals Matrix */}
+        <SignalsMatrix insights={insights} />
 
-        <QualityAuditor maintenanceIndex={maintenanceIndex} totalRepos={user.public_repos} />
-        <TechStack stack={techStack} />
-        <Achievements achievements={achievements} rhythm={rhythm} />
-        <SkillDNA languages={languages} />
-        <RepositoryGrid repos={topRepos} />
+        {/* 3. Skill DNA & Tooling Ecosystem */}
+        <SkillDNA 
+          languages={languages} 
+          techStack={insights.techStack} 
+          licenses={insights.licenses} 
+        />
 
-        <div className="mt-24">
-          <ExportCard user={user} archetype={archetype} score={healthScore} />
-        </div>
+        {/* 4. Flagship Repositories (Authored vs Forks) */}
+        <RepositorySection repos={repos} />
+
+        {/* 5. Real Public Activity Stream */}
+        <RecentActivity events={insights.recentEvents} />
+
+        {/* 6. Recruiter & Peer Export Card */}
+        <ExportCard 
+          user={user} 
+          insights={insights} 
+          languages={languages} 
+        />
       </div>
     </main>
   );
