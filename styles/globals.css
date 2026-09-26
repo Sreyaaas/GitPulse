@@ -2,49 +2,75 @@
 
 @layer base {
   :root {
-    --bg-color: #030305;
-    --text-color: #f4f4f5;
+    --bg-color: #090a0f;
+    --text-color: #f4f4f6;
   }
 
   body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: var(--font-poppins), sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", var(--font-poppins), sans-serif;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    --mouse-x: 50vw;
+    --mouse-y: 35vh;
   }
 }
 
-/* Buttery smooth CSS-variable driven cursor spotlight */
-body {
-  --mouse-x: -1000px;
-  --mouse-y: -1000px;
+/* Crisp Silver-to-White Heading Gradient */
+.heading-gradient {
+  background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 55%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.cursor-spotlight {
+/* Smooth, Ethereal Gemini Cursor Hover Glow */
+.gemini-spotlight {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 600px;
-  height: 600px;
-  margin-left: -300px;
-  margin-top: -300px;
-  transform: translate(var(--mouse-x), var(--mouse-y));
-  background: radial-gradient(circle, rgba(217, 70, 239, 0.35) 0%, rgba(59, 130, 246, 0.3) 40%, transparent 70%);
-  filter: blur(55px);
+  inset: 0;
   pointer-events: none;
-  z-index: 25;
-  mix-blend-mode: screen;
-  transition: transform 0.05s linear;
+  z-index: 1;
+  background: radial-gradient(650px circle at var(--mouse-x) var(--mouse-y), rgba(129, 140, 248, 0.14), rgba(168, 85, 247, 0.08) 35%, transparent 70%);
+  transition: opacity 0.3s ease;
 }
 
-/* Cinematic Noise Texture */
+/* Apple-grade Glass Capsule */
+.apple-glass {
+  background: rgba(12, 13, 18, 0.65);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.apple-glass:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Very subtle noise texture */
 .noise {
   position: fixed;
   inset: -200%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.015;
   pointer-events: none;
-  z-index: 50;
+  z-index: 1;
+}
+
+/* Clean scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #090a0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
 }

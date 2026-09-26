@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import GeminiBackground from "@/components/landing/GeminiBackground";
-import MouseSpotlight from "@/components/landing/MouseSpotlight"; // Import here
+import MouseSpotlight from "@/components/landing/MouseSpotlight";
 import "../styles/globals.css";
 
 const poppins = Poppins({
@@ -27,7 +27,7 @@ export default function RootLayout({
         <ThemeProvider>
           <div className="noise" />
           <GeminiBackground />
-          <MouseSpotlight /> {/* Active globally */}
+          <MouseSpotlight />
           
           <div className="relative z-10 flex flex-col min-h-screen justify-between">
             <div className="flex-grow">

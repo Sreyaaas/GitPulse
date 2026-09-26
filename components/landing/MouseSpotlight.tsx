@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 
 export default function MouseSpotlight() {
-  // Initialize state lazily to avoid setting state synchronously inside an effect
   const [isDesktop, setIsDesktop] = useState(() => {
     if (typeof window === "undefined") return false;
     return window.matchMedia("(pointer: fine)").matches;
@@ -18,23 +17,26 @@ export default function MouseSpotlight() {
 
     mediaQuery.addEventListener("change", handleMediaQueryChange);
 
-    // If it's a mobile/touch device, don't attach mouse listeners
     if (!mediaQuery.matches) return;
 
+    let rafId: number;
     const handleMouseMove = (e: MouseEvent) => {
-      document.body.style.setProperty("--mouse-x", `${e.clientX}px`);
-      document.body.style.setProperty("--mouse-y", `${e.clientY}px`);
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        document.body.style.setProperty("--mouse-x", `${e.clientX}px`);
+        document.body.style.setProperty("--mouse-y", `${e.clientY}px`);
+      });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener("mousemove", handleMouseMove);
       mediaQuery.removeEventListener("change", handleMediaQueryChange);
     };
   }, []);
 
-  // Completely hidden on mobile/touch screens
   if (!isDesktop) return null;
 
-  return <div className="cursor-spotlight" />;
+  return <div className="gemini-spotlight" aria-hidden="true" />;
 }
